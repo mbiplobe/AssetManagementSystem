@@ -9,6 +9,7 @@
 #include <memory>
 #include<vector>
 #include<ostream>
+#include<maintenance.h>
 
 MenuInterface::MenuInterface(std::ostream &display, std::istream &input)
     : _display{display}, _input{input} {
@@ -18,6 +19,8 @@ void MenuInterface::displayMainMenu() const {
   _display << "What would you like to do?" << std::endl;
   _display << " (a)dd an asset" << std::endl;
   _display << " (d)ispose an asset" << std::endl;
+  _display << " (u)pdate asset custodian or location" << std::endl;
+  _display << " (m)aintenance record" << std::endl;
   _display << " (l)ist assets by type" << std::endl;
   _display << " List assets by (c)ustodian" << std::endl;
   _display << " (f)ind asset" << std::endl;
@@ -79,26 +82,45 @@ char MenuInterface::getCharacterInput() const {
 
 bool MenuInterface::processSelection(char selection) {
   switch (selection) {
-  case 'a':
+  case 'a':{
     addAsset();
     break;
-  case 'd':
+  }
+  case 'd':{
     disposeAsset();
     break;
-  case 'l':
+  }
+
+  case 'u':{
+    updateAsset();
+    break;
+  }
+
+  case 'm':
+  {
+   addMaintenance ();
+    break;
+  }
+
+  case 'l':{
     listAssetsByType();
     break;
-  case 'c':
+  }
+  case 'c':{
     listAssetsByCustodian();
     break;
-  case 'f':
+  }
+  case 'f':{
     findAsset();
-    break;
-  case 'q':
+    break;}
+  case 'q':{
     return false;
-  default:
+  }
+  default:{
     _display << "Sorry, \'" << selection << "\' is not a valid option, please try again."
              << std::endl;
+  displayMainMenu();
+  }
   }
   return true;
 }
@@ -253,7 +275,34 @@ void MenuInterface::updateAsset() {
 }
 
 void MenuInterface::addMaintenance() {
-  // TODO: implement this member function.
+    _display<<"Add Maintenance Record : "<<std::endl;
+
+    std::string assetId;
+    std::string serviceProvider;
+     Date serviceDate(30, Date::June, 2015);
+
+    _display<<"Asset Id : ";
+    std::getline (_input,assetId);
+    _display << std::endl;
+
+    _display<<"Service Provider Name : ";
+    std::getline (_input,serviceProvider);
+    _display << std::endl;
+
+    Maintenance maintenance(assetId,serviceProvider,serviceDate);
+    AssetRegister &am = AssetRegister::instance();
+    am.storeServiceRecord(std::make_shared<Maintenance>(maintenance));
+
+
+
+    if(am.storeServiceRecord(std::make_shared<Maintenance>(maintenance))){
+         _display <<"Service Record save Successfully"<< std::endl;
+          displayMainMenu();
+     }else{
+         _display <<"Sorry try again"<< std::endl;
+         displayMainMenu();
+    }
+
 }
 
 void MenuInterface::listAssetsByType() {
@@ -339,26 +388,91 @@ void MenuInterface::assetEntry(char assetType){
             displayAddAssetSubMenu();
        }
 
-
-
-
-
       break;
     }
 
     case 'p':
     {
+        std::string serialNumber;
+        std::string operatingSystem;
+        std::string phoneNumber;
+        std::string billingIdentifier;
+
+        _display<<"Operating System : ";
+         std::getline (_input,operatingSystem);
+        _display << std::endl;
+
+        _display<<"Serial Number : ";
+         std::getline (_input,serialNumber);
+        _display << std::endl;
+
+
+        _display<<"Phone Number : ";
+         std::getline (_input,phoneNumber);
+        _display << std::endl;
+
+        _display<<"Billing Identifier : ";
+         std::getline (_input,billingIdentifier);
+        _display << std::endl;
+
+
+        Phone phone(assetId,assetBrand,assetModel,purchasePrice,parchessDate,serialNumber,operatingSystem,phoneNumber,billingIdentifier);
+        phone.setCustodian(custodianEntry());
+
+
+        AssetRegister &am = AssetRegister::instance();
+        if(am.storeAsset(std::make_shared<Phone>(phone))){
+             _display <<"Asset Information Save Successfully"<< std::endl;
+              displayMainMenu();
+         }else{
+             _display <<"Sorry try again"<< std::endl;
+             displayAddAssetSubMenu();
+        }
        break;
     }
 
     case 't':
     {
+        std::string serialNumber;
+        std::string location;
+
+        _display<<"Serial Number : ";
+         std::getline (_input,serialNumber);
+        _display << std::endl;
+
+
+        _display<<"Location : ";
+         std::getline (_input,location);
+        _display << std::endl;
+
+
+
+        Television television(assetId,assetBrand,assetModel,purchasePrice,parchessDate,serialNumber,location);
+
+
+
+        AssetRegister &am = AssetRegister::instance();
+        if(am.storeAsset(std::make_shared<Television>(television))){
+             _display <<"Asset Information Save Successfully"<< std::endl;
+              displayMainMenu();
+         }else{
+             _display <<"Sorry try again"<< std::endl;
+             displayAddAssetSubMenu();
+        }
+       break;
       break;
 
     }
-    case 'd':{
+    case 'b':{
+         displayMainMenu();
         break;
     }
+
+    default:{
+         _display <<"Sorry try again"<< std::endl;
+        displayAddAssetSubMenu();
+    }
+
     }
 
 }

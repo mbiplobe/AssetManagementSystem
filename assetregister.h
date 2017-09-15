@@ -3,6 +3,7 @@
 #include "asset.h"
 #include <map>
 #include <memory>
+#include<maintenance.h>
 
 /* NOTE: to students - DO NOT modify or remove existing members of this class.
  * If required, you may add methods to this class. */
@@ -27,6 +28,7 @@ public:
    * @return a shared pointer to the asset or a nullptr if the asset does not exist.
    */
   std::shared_ptr<Asset> retrieveAsset(const std::string &assetId);
+   std::shared_ptr<Maintenance> retrieveServiceRecord(const std::string &assetId);
 
   /**
    * @brief storeAsset Store an asset in the asset register.
@@ -35,8 +37,12 @@ public:
    */
   bool storeAsset(std::shared_ptr<Asset> asset);
 
+  bool storeServiceRecord(std::shared_ptr<Maintenance> serviceRecord);
+
 private:
   std::map<std::string, std::shared_ptr<Asset>> _assets; /**< stores all the assets, by asset id*/
+
+  std::map<std::string, std::shared_ptr<Maintenance>> _serviceRecords;
 
   // Private constructor for singleton pattern.
   AssetRegister();
