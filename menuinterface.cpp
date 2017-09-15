@@ -6,6 +6,9 @@
 #include<phone.h>
 #include<television.h>
 #include<hmd.h>
+#include <memory>
+#include<vector>
+#include<ostream>
 
 MenuInterface::MenuInterface(std::ostream &display, std::istream &input)
     : _display{display}, _input{input} {
@@ -102,16 +105,24 @@ bool MenuInterface::processSelection(char selection) {
 
 bool MenuInterface::addAssetTypeSelection(char selection) {
   switch (selection) {
-  case 'c':{
-          break;
+  case 'c':
+  {
+      assetEntry('c');
+      break;
   }
 
 
-  case 'p':{
-    break;}
+  case 'p':
+  {
+      assetEntry('p');
+    break;
+  }
 
-  case 't':{
-    break;}
+  case 't':
+  {
+    assetEntry('t');
+    break;
+ }
 
   case 'b':{
     displayMainMenu();
@@ -268,73 +279,117 @@ void MenuInterface::findAsset() {
 
 void MenuInterface::assetEntry(char assetType){
 
-//    Asset(const string &id, const string &brand, const string &model,
-//       double purchasePrice, const Date &purchaseDate);
+   std::string assetId;
+   std::string assetBrand;
+   std::string assetModel;
+   double purchasePrice ;
+    Date parchessDate(15, Date::June, 2014);
 
-//   std::string assetId;
-//   std::string assetBrand;
-//   std::string assetModel;
-//   double purchasePrice ;
+    _display<<"Enter Asset Details : "<<std::endl;
 
-////    Asset asset("540","RANG","SEL",152.30,date.currentDate());
+    _display<<"Id : ";
+    std::getline (_input,assetId);
+    _display << std::endl;
 
-//    _display<<"Id : ";
-//    std::getline (_input,assetId);
-//    _display << std::endl;
+    _display<<"Brand Name : ";
+    std::getline (_input,assetBrand);
+    _display << std::endl;
 
-//    _display<<"Brand Name : ";
-//    std::getline (_input,assetBrand);
-//    _display << std::endl;
+    _display<<"Model Name : ";
+    std::getline (_input,assetModel);
+    _display << std::endl;
 
-//    _display<<"Model Name : ";
-//    std::getline (_input,assetModel);
-//    _display << std::endl;
-
-//    _display<<"Price : ";
-//   _input>>purchasePrice;
-//    _display << std::endl;
-
-//    switch(assetType){
-//    case 'c':
-//        _display<<"Price : ";
-//       _input>>purchasePrice;
-//        _display << std::endl;
-
-//      break;
-
-//    case 'p':
-
-//      break;
-//    case 't':
-
-//      break;
-//    case 'd':
-//    }
+    _display<<"Price : ";
+     _input>>purchasePrice;
+    _display << std::endl;
 
 
-//    _display<<"Brand Name : ";
-//    std::getline (_input,assetId);
-//    _display << std::endl;
-
-
-    switch (assetType) {
+    switch(assetType){
     case 'c':
+    {
+       std::string serialNumber;
+       std::string operatingSystem;
+       std::string networkIdentifier;
+
+       _display<<"Operating System : ";
+        std::getline (_input,operatingSystem);
+       _display << std::endl;
+
+       _display<<"Serial Number : ";
+        std::getline (_input,serialNumber);
+       _display << std::endl;
+
+
+       _display<<"Network Identifier : ";
+        std::getline (_input,networkIdentifier);
+       _display << std::endl;
+
+
+
+       Computer computer(assetId,assetBrand,assetModel,purchasePrice,parchessDate,serialNumber,operatingSystem);
+       computer.setNetworkIdentifier(networkIdentifier);
+       computer.setCustodian(custodianEntry());
+
+       AssetRegister &am = AssetRegister::instance();
+       if(am.storeAsset(std::make_shared<Computer>(computer))){
+            _display <<"Asset Information Save Successfully"<< std::endl;
+             displayMainMenu();
+        }else{
+            _display <<"Sorry try again"<< std::endl;
+            displayAddAssetSubMenu();
+       }
+
+
+
+
 
       break;
-    case 'p':
-
-      break;
-    case 't':
-      break;
-
-    default:
-        break;
     }
 
+    case 'p':
+    {
+       break;
+    }
 
+    case 't':
+    {
+      break;
 
+    }
+    case 'd':{
+        break;
+    }
+    }
 
 }
+
+Custodian MenuInterface::custodianEntry() const{
+
+    std::string custodianName;
+    std::string custodianDepartment;
+    int custodianPhone;
+
+    _display<<"Custodian Name: ";
+    std::getline (_input,custodianName);
+    _display << std::endl;
+
+    _display<<"Custodian Department: ";
+    std::getline (_input,custodianDepartment);
+    _display << std::endl;
+
+    _display<<"Custodian Phone Number: ";
+    _input>>custodianPhone;
+    _display << std::endl;
+
+      Date employmentDate(7, Date::May, 2012);
+
+
+       Custodian custodian(custodianName,custodianDepartment,custodianPhone,employmentDate);
+
+       return custodian;
+}
+
+
 
 
 
