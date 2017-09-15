@@ -12,6 +12,7 @@
 #include <memory>
 #include<vector>
 #include<ostream>
+#include<menuinterface.h>
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
@@ -78,18 +79,22 @@ int main(int argc, char *argv[])
 
 
 
-    AssetRegister &am = AssetRegister::instance();
-    am.storeAsset(std::make_shared<Computer>("comp003", "Dell",
-     "Inspiron 13 5378", 1100, Date{10,Date::July,2017}, "51NC167",
-     "Windows 10 Enterprise"));
+//    AssetRegister &am = AssetRegister::instance();
+//    am.storeAsset(std::make_shared<Computer>("comp003", "Dell",
+//     "Inspiron 13 5378", 1100, Date{10,Date::July,2017}, "51NC167",
+//     "Windows 10 Enterprise"));
 
-    std::string name=am.retrieveAsset("comp003").get()->brand();
-
-
-      std::cout<<name;
+//    std::string name=am.retrieveAsset("comp003").get()->brand();
 
 
+//      std::cout<<name;
 
+
+    MenuInterface m{std::cout, std::cin};
+    m.displayMainMenu();
+    while (m.processSelection(m.getCharacterInput())) {
+      m.displayMainMenu();
+    }
 
     return a.exec();
 }

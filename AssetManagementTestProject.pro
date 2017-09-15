@@ -18,7 +18,8 @@ SOURCES += main.cpp \
     hmd.cpp \
     phone.cpp \
     television.cpp \
-    assetregister.cpp
+    assetregister.cpp \
+    menuinterface.cpp
 
 HEADERS += \
     asset.h \
@@ -28,4 +29,5 @@ HEADERS += \
     hmd.h \
     phone.h \
     television.h \
-    assetregister.h
+    assetregister.h \
+    menuinterface.h
