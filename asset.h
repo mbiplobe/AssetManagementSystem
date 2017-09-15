@@ -13,10 +13,12 @@ public:
      double purchasePrice() const;
      Date purchaseDate() const;
 
-
-protected:
      Asset(const string &id, const string &brand, const string &model,
      double purchasePrice, const Date &purchaseDate);
+
+
+//protected:
+
 
 private:
      string _id;

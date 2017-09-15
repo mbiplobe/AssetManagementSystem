@@ -8,6 +8,10 @@
 #include<hmd.h>
 #include<phone.h>
 #include<television.h>
+#include<assetregister.h>
+#include <memory>
+#include<vector>
+#include<ostream>
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
@@ -66,10 +70,26 @@ int main(int argc, char *argv[])
 
 //    Television(const string &id, const string &brand, const string &model, double purchasePrice,
 //               const Date &purchaseDate, const string &serialNumber, const string &location);
-    Custodian custodian("Rasel","CSE",1756,date.currentDate());
-    Television television("354","DEL","EL-04",150.2,date.currentDate(),"12458FD","Dhaka");
-    television.setCustodian(custodian);
-     std::cout<<television.custodian().department()+""+television.location();
+//    Custodian custodian("Rasel","CSE",1756,date.currentDate());
+//    Television television("354","DEL","EL-04",150.2,date.currentDate(),"12458FD","Dhaka");
+//    television.setCustodian(custodian);
+//     std::cout<<television.custodian().department()+""+television.location();
+
+
+
+
+    AssetRegister &am = AssetRegister::instance();
+    am.storeAsset(std::make_shared<Computer>("comp003", "Dell",
+     "Inspiron 13 5378", 1100, Date{10,Date::July,2017}, "51NC167",
+     "Windows 10 Enterprise"));
+
+    std::string name=am.retrieveAsset("comp003").get()->brand();
+
+
+      std::cout<<name;
+
+
+
 
     return a.exec();
 }

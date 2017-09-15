@@ -17,7 +17,8 @@ SOURCES += main.cpp \
     custodian.cpp \
     hmd.cpp \
     phone.cpp \
-    television.cpp
+    television.cpp \
+    assetregister.cpp
 
 HEADERS += \
     asset.h \
@@ -26,4 +27,5 @@ HEADERS += \
     custodian.h \
     hmd.h \
     phone.h \
-    television.h
+    television.h \
+    assetregister.h
