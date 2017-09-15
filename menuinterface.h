@@ -12,7 +12,17 @@ public:
    * @brief displayMainMenu write the main menu to the display device.
    */
   void displayMainMenu() const;
-  /**
+
+
+ void displayAddAssetSubMenu() const;
+ void displayAssetListSubMenu() const;
+ void displayFindAssetSubMenu() const;
+  void displayDisposeAssetSubMenu() const;
+   void updateAssetSubMenu() const;
+
+
+
+  /**L
    * @brief getCharacterInput get a single character input from the input device
    * and clear the buffer till the next newline character.
    * @return the character input.
@@ -24,6 +34,12 @@ public:
    * @return true to continue the program, false to quit.
    */
   bool processSelection(char selection);
+   bool addAssetTypeSelection(char selection);
+    bool disposeAssetSelection(char selection);
+     bool updateAssetSelection(char selection);
+      bool assetListSelection(char selection);
+       bool findAssetSelection(char selection);
+
 
 private:
   std::ostream &_display; /**< the stream to pass all display output to */
@@ -63,6 +79,8 @@ private:
    * @brief findAsset display and process the find asset task.
    */
   void findAsset();
+
+  void assetEntry(char selection);
 };
 
 #endif // MENUITERFACE_H

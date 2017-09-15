@@ -93,7 +93,8 @@ int main(int argc, char *argv[])
     MenuInterface m{std::cout, std::cin};
     m.displayMainMenu();
     while (m.processSelection(m.getCharacterInput())) {
-      m.displayMainMenu();
+
+
     }
 
     return a.exec();
