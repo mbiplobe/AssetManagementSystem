@@ -7,11 +7,13 @@ using std::string;
 class Custodian
 {
 public:
-    Custodian(const string &name, const string &department, const int &phnNum, const Date &employmentStartDate);
+    Custodian(const string &id,const string &name, const string &department, const int &phnNum, const Date &employmentStartDate);
 
     Custodian();
 
     string name() const;
+
+    string getAssetId() const;
 
     string department() const;
 
@@ -21,6 +23,7 @@ public:
 
 private:
     string _name;
+    string _assetId;
     string _department;
     int _phnNum;
     Date _employmentStartDate;

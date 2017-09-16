@@ -20,6 +20,21 @@ std::shared_ptr<Maintenance> AssetRegister::retrieveServiceRecord(const std::str
   }
   return nullptr;
 }
+std::shared_ptr<Custodian> AssetRegister::retrieveCustodian(const std::string &assetId) {
+  auto assetIt = _custodianRecords.find(assetId);
+  if (assetIt != _custodianRecords.end()) {
+    return assetIt->second;
+  }
+  return nullptr;
+}
+
+std::shared_ptr<std::string> AssetRegister::retrieveLocation(const std::string &assetId) {
+  auto assetIt = _locationRecords.find(assetId);
+  if (assetIt != _locationRecords.end()) {
+    return assetIt->second;
+  }
+  return nullptr;
+}
 
 bool AssetRegister::storeAsset(std::shared_ptr<Asset> asset) {
   if (!_assets.count(asset->id())) {
@@ -36,6 +51,27 @@ bool AssetRegister::storeServiceRecord(std::shared_ptr<Maintenance> serviceRecor
   }
   return false;
 }
+
+bool AssetRegister::storeCustodianRecord(std::shared_ptr<Custodian> custodianRecord) {
+  if (!_custodianRecords.count(custodianRecord->getAssetId())) {
+    _custodianRecords[custodianRecord->getAssetId()] = std::shared_ptr<Custodian>{custodianRecord};
+    return true;
+  }
+  return false;
+}
+
+bool AssetRegister::updateCustodianRecord(std::shared_ptr<Custodian> custodianRecord) {
+   _custodianRecords[custodianRecord->getAssetId()] = std::shared_ptr<Custodian>{custodianRecord};
+  return true;
+}
+
+//bool AssetRegister::storeLocationRecord(std::shared_ptr<std::string> locationRecord,std::shared_ptr<std::string> assetId) {
+//  if (!_locationRecords.count(assetId)) {
+//    _locationRecords[assetId] = std::shared_ptr<std::string>{locationRecord};
+//    return true;
+//  }
+//  return false;
+//}
 
 AssetRegister::AssetRegister() {
 }

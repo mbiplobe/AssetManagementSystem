@@ -31,3 +31,9 @@ Asset::Asset(const string &id, const string &brand, const string &model,
              double purchasePrice, const Date &purchaseDate)
     : _id{id}, _brand(brand), _model(model), _purchasePrice(purchasePrice), _purchaseDate(purchaseDate)  {
 }
+
+
+
+
+
+

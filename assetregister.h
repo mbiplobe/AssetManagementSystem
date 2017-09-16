@@ -4,7 +4,7 @@
 #include <map>
 #include <memory>
 #include<maintenance.h>
-
+#include<custodian.h>
 /* NOTE: to students - DO NOT modify or remove existing members of this class.
  * If required, you may add methods to this class. */
 
@@ -28,7 +28,11 @@ public:
    * @return a shared pointer to the asset or a nullptr if the asset does not exist.
    */
   std::shared_ptr<Asset> retrieveAsset(const std::string &assetId);
-   std::shared_ptr<Maintenance> retrieveServiceRecord(const std::string &assetId);
+  std::shared_ptr<Maintenance> retrieveServiceRecord(const std::string &assetId);
+  std::shared_ptr<Custodian> retrieveCustodian(const std::string &assetId);
+  std::shared_ptr<std::string> retrieveLocation(const std::string &assetId);
+
+
 
   /**
    * @brief storeAsset Store an asset in the asset register.
@@ -36,13 +40,17 @@ public:
    * @return true if the asset was stored, false if the asset id is not unique.
    */
   bool storeAsset(std::shared_ptr<Asset> asset);
-
+   bool updateCustodianRecord(std::shared_ptr<Custodian> custodianRecord);
   bool storeServiceRecord(std::shared_ptr<Maintenance> serviceRecord);
+  bool storeCustodianRecord(std::shared_ptr<Custodian> serviceRecord);
+    bool storeLocationRecord(std::shared_ptr<std::string> serviceRecord,std::shared_ptr<std::string> assetId);
 
 private:
   std::map<std::string, std::shared_ptr<Asset>> _assets; /**< stores all the assets, by asset id*/
 
   std::map<std::string, std::shared_ptr<Maintenance>> _serviceRecords;
+  std::map<std::string, std::shared_ptr<Custodian>> _custodianRecords;
+  std::map<std::string, std::shared_ptr<std::string>> _locationRecords;
 
   // Private constructor for singleton pattern.
   AssetRegister();

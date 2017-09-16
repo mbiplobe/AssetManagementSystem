@@ -41,7 +41,7 @@ public:
       bool assetListSelection(char selection);
        bool findAssetSelection(char selection);
 
-        Custodian custodianEntry() const;
+        Custodian custodianEntry(const string &id) const;
 
 private:
   std::ostream &_display; /**< the stream to pass all display output to */

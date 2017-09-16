@@ -177,8 +177,40 @@ bool MenuInterface::disposeAssetSelection(char selection) {
 
 bool MenuInterface::updateAssetSelection(char selection) {
   switch (selection) {
-  case 'c':{
-    break;}
+  case 'c':
+ {
+       std::string assetId;
+      _display<<"Update Custodian Information  : ";
+
+
+      _display<<"Asset Id : ";
+       std::getline (_input,assetId);
+      _display << std::endl;
+
+      ;
+
+      AssetRegister &am = AssetRegister::instance();
+
+      if(am.updateCustodianRecord(std::make_shared<Custodian>(custodianEntry(assetId))))
+      {
+          _display<<"Update Successfully"<<std::endl;
+      }else{
+           _display<<"Try again"<<std::endl;;
+      }
+
+      displayMainMenu();
+//       std::shared_ptr<Computer> computer =  std::dynamic_pointer_cast<Computer>(am.retrieveAsset(assetId));
+
+
+//   _display<< ( (Computer) (am.retrieveAsset(assetId))).custodian().department();
+
+
+
+
+
+
+    break;
+ }
   case 'l':{
     break;}
   case 'b':{
@@ -377,10 +409,9 @@ void MenuInterface::assetEntry(char assetType){
 
        Computer computer(assetId,assetBrand,assetModel,purchasePrice,parchessDate,serialNumber,operatingSystem);
        computer.setNetworkIdentifier(networkIdentifier);
-       computer.setCustodian(custodianEntry());
-
        AssetRegister &am = AssetRegister::instance();
-       if(am.storeAsset(std::make_shared<Computer>(computer))){
+
+       if(am.storeAsset(std::make_shared<Computer>(computer))&& am.storeCustodianRecord(std::make_shared<Custodian>(custodianEntry(assetId)))){
             _display <<"Asset Information Save Successfully"<< std::endl;
              displayMainMenu();
         }else{
@@ -417,11 +448,11 @@ void MenuInterface::assetEntry(char assetType){
 
 
         Phone phone(assetId,assetBrand,assetModel,purchasePrice,parchessDate,serialNumber,operatingSystem,phoneNumber,billingIdentifier);
-        phone.setCustodian(custodianEntry());
+
 
 
         AssetRegister &am = AssetRegister::instance();
-        if(am.storeAsset(std::make_shared<Phone>(phone))){
+        if(am.storeAsset(std::make_shared<Phone>(phone))&&  am.storeCustodianRecord(std::make_shared<Custodian>(custodianEntry(assetId)))){
              _display <<"Asset Information Save Successfully"<< std::endl;
               displayMainMenu();
          }else{
@@ -477,7 +508,7 @@ void MenuInterface::assetEntry(char assetType){
 
 }
 
-Custodian MenuInterface::custodianEntry() const{
+Custodian MenuInterface::custodianEntry(const string &assetId) const{
 
     std::string custodianName;
     std::string custodianDepartment;
@@ -498,7 +529,7 @@ Custodian MenuInterface::custodianEntry() const{
       Date employmentDate(7, Date::May, 2012);
 
 
-       Custodian custodian(custodianName,custodianDepartment,custodianPhone,employmentDate);
+       Custodian custodian(assetId,custodianName,custodianDepartment,custodianPhone,employmentDate);
 
        return custodian;
 }
