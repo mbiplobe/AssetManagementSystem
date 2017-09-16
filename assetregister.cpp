@@ -1,4 +1,5 @@
 #include "assetregister.h"
+#include<vector>
 
 AssetRegister &AssetRegister::instance() {
   static AssetRegister s_instance;
@@ -13,6 +14,16 @@ std::shared_ptr<Asset> AssetRegister::retrieveAsset(const std::string &assetId) 
   return nullptr;
 }
 
+std::vector<std::shared_ptr<Asset>> AssetRegister::retrieveAssetAllList() {
+    std::vector<std::shared_ptr<Asset>> v;
+    for(std::map<std::string, std::shared_ptr<Asset>>::iterator it = _assets.begin(); it != _assets.end(); ++it) {
+
+        v.push_back(it->second);
+
+    }
+  return v;
+}
+
 std::shared_ptr<Maintenance> AssetRegister::retrieveServiceRecord(const std::string &assetId) {
   auto assetIt = _serviceRecords.find(assetId);
   if (assetIt != _serviceRecords.end()) {
@@ -20,6 +31,7 @@ std::shared_ptr<Maintenance> AssetRegister::retrieveServiceRecord(const std::str
   }
   return nullptr;
 }
+
 std::shared_ptr<Custodian> AssetRegister::retrieveCustodian(const std::string &assetId) {
   auto assetIt = _custodianRecords.find(assetId);
   if (assetIt != _custodianRecords.end()) {

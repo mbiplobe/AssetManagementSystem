@@ -30,7 +30,6 @@ void MenuInterface::displayMainMenu() const {
 void MenuInterface::updateAssetSubMenu() const {
   _display << "What would you want to update?" << std::endl;
   _display << " update asset (c)ustodian" << std::endl;
-  _display << "update (l)ocation " << std::endl;
    _display << " (b)ack to main menu" << std::endl;
 }
 
@@ -65,6 +64,12 @@ void MenuInterface::displayAssetListSubMenu() const {
    _display << " (b)ack to main menu" << std::endl;
 }
 
+void MenuInterface::displayAssetList(std::shared_ptr<Asset> asset) const{
+    _display<<"Asset Id: "+ asset.get()->id()<<std::endl;
+    _display<<"Brand Name: "+ asset.get()->brand()<<std::endl;;
+    _display<<"Model : "+ asset.get()->model()<<std::endl;
+}
+
 void MenuInterface::displayFindAssetSubMenu() const {
   _display << "Find asset" << std::endl;
   _display << " search by (a)sset id" << std::endl;
@@ -79,6 +84,23 @@ char MenuInterface::getCharacterInput() const {
   _input.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
   return input;
 }
+bool MenuInterface::backMainMenuSelection(char selection) {
+  switch (selection) {
+  case 'b':
+  {
+    break;
+  }
+  default:
+  {
+    _display << "Sorry, \'" << selection << "\' is not a valid option, please try again."
+             << std::endl;
+
+  }
+      displayMainMenu();
+
+  }
+}
+
 
 bool MenuInterface::processSelection(char selection) {
   switch (selection) {
@@ -229,6 +251,13 @@ bool MenuInterface::assetListSelection(char selection) {
   switch (selection) {
   case 'a':
   {
+    AssetRegister &am = AssetRegister::instance();
+    std::vector<std::shared_ptr<Asset>> v=am.retrieveAssetAllList();
+    for (unsigned i=0; i<v.size(); i++){
+        displayAssetList(v.at(i));}
+
+   _display << " (b)ack to main menu" << std::endl;
+   backMainMenuSelection(getCharacterInput());
     break;
   }
   case 'c':
@@ -507,6 +536,7 @@ void MenuInterface::assetEntry(char assetType){
     }
 
 }
+
 
 Custodian MenuInterface::custodianEntry(const string &assetId) const{
 

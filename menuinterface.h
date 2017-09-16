@@ -2,6 +2,8 @@
 #define MENUITERFACE_H
 #include <iostream>
 #include<custodian.h>
+#include<memory>
+#include<asset.h>
 
 /**
  * @brief The MenuInterface class encapsulates all interaction with the asset management system.
@@ -40,7 +42,8 @@ public:
      bool updateAssetSelection(char selection);
       bool assetListSelection(char selection);
        bool findAssetSelection(char selection);
-
+        bool backMainMenuSelection(char selection);
+       void displayAssetList(std::shared_ptr<Asset>) const;
         Custodian custodianEntry(const string &id) const;
 
 private:

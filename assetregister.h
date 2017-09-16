@@ -3,6 +3,7 @@
 #include "asset.h"
 #include <map>
 #include <memory>
+#include<vector>
 #include<maintenance.h>
 #include<custodian.h>
 /* NOTE: to students - DO NOT modify or remove existing members of this class.
@@ -31,6 +32,7 @@ public:
   std::shared_ptr<Maintenance> retrieveServiceRecord(const std::string &assetId);
   std::shared_ptr<Custodian> retrieveCustodian(const std::string &assetId);
   std::shared_ptr<std::string> retrieveLocation(const std::string &assetId);
+  std::vector<std::shared_ptr<Asset>> retrieveAssetAllList();
 
 
 
@@ -47,7 +49,6 @@ public:
 
 private:
   std::map<std::string, std::shared_ptr<Asset>> _assets; /**< stores all the assets, by asset id*/
-
   std::map<std::string, std::shared_ptr<Maintenance>> _serviceRecords;
   std::map<std::string, std::shared_ptr<Custodian>> _custodianRecords;
   std::map<std::string, std::shared_ptr<std::string>> _locationRecords;
